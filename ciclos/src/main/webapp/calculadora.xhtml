@@ -8,13 +8,14 @@
 	<h:body>
 		<h1>Calculadora :3</h1>
 		<h:form id="calculadora_form">
-			<p:inputText id="numeroUsuario" binding="#{numeroUsuario}"></p:inputText>
-			
+			<p:outputLabel value="#{calculadoraBean.mode}" style="display: none;"></p:outputLabel>
+			<p:inputText id="numeroUsuario" value="#{calculadoraBean.data}"></p:inputText>
+			<System class="println">value="#{calculadoraBean.data}"</System>
 			<p:panelGrid columns="2" >
-				<p:outputLabel id="moda" value="Moda #{calculadoraBean.calculateMode}"></p:outputLabel>
-				<p:outputLabel id="varianza" value="Varianza #{calculadoraBean.calculateVariance}"></p:outputLabel>
-				<p:outputLabel id="desviacionEstandar" value="desviación estandar #{calculadoraBean.calculateStandardDesviation}"></p:outputLabel>
-				<p:outputLabel id="promedio" value="Promedio #{calculadoraBean.calculateMean}"></p:outputLabel>
+				<p:outputLabel id="moda" value="Moda #{calculadoraBean.mode}"></p:outputLabel>
+				<p:outputLabel id="varianza" value="Varianza #{calculadoraBean.variance}"></p:outputLabel>
+				<p:outputLabel id="desviacionEstandar" value="desviación estandar #{calculadoraBean.desviation}"></p:outputLabel>
+				<p:outputLabel id="promedio" value="Promedio #{calculadoraBean.average}"></p:outputLabel>
 				
 				<p:commandButton update="calculadora_form" actionListener="#{calculadoraBean.calculateMode}" value = "Calcular moda"></p:commandButton>
 				<p:commandButton update="calculadora_form" actionListener="#{calculadoraBean.calculateVariance}" value = "Calcular varianza"></p:commandButton>

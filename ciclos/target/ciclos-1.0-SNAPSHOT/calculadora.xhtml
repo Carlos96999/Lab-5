@@ -6,17 +6,22 @@
 		<link rel="stylesheet" type="text/css" href="styles.css" />
 	</h:head>
 	<h:body>
-		<h1>Juega...</h1>
+		<h1>Calculadora :3</h1>
 		<h:form id="calculadora_form">
+			<p:outputLabel value="#{calculadoraBean.mode}" style="display: none;"></p:outputLabel>
+			<p:inputText id="numeroUsuario" value="#{calculadoraBean.data}"></p:inputText>
+			<System class="println">value="#{calculadoraBean.data}"</System>
 			<p:panelGrid columns="2" >
-				<p:inputText id="numeroUsuario" binding="#{numeroUsuario}"></p:inputText>
-				<p:outputLabel id="label" value="Moda #{calculadoraBean.nombrePropiedad}"></p:outputLabel>
-				<p:outputLabel value="Estado: #{GuessBean.estado}"></p:outputLabel>
-				<p:outputLabel value="Acomulado #{GuessBean.acomulado}"></p:outputLabel>
-				<p:outputLabel value="Numero Intentos Fallidos #{GuessBean.intentosFallidos}"></p:outputLabel>
-				<p:outputLabel style="display: none" value="#{GuessBean.numeroAdivinar}"></p:outputLabel>
-				<p:commandButton update="guess_form" actionListener="#{GuessBean.guess(numeroUsuario.value)}" value="Jugar"></p:commandButton>
-				<p:commandButton update="guess_form" actionListener="#{GuessBean.restart}" value="Reiniciar"></p:commandButton>
+				<p:outputLabel id="moda" value="Moda #{calculadoraBean.mode}"></p:outputLabel>
+				<p:outputLabel id="varianza" value="Varianza #{calculadoraBean.variance}"></p:outputLabel>
+				<p:outputLabel id="desviacionEstandar" value="desviación estandar #{calculadoraBean.desviation}"></p:outputLabel>
+				
+				
+				<p:commandButton update="calculadora_form" actionListener="#{calculadoraBean.calculateMode}" value = "Calcular moda"></p:commandButton>
+				<p:commandButton update="calculadora_form" actionListener="#{calculadoraBean.calculateVariance}" value = "Calcular varianza"></p:commandButton>
+				<p:commandButton update="calculadora_form" actionListener="#{calculadoraBean.calculateStandardDesviation}" value = "Calcular desviación estandar"></p:commandButton>
+				<p:commandButton update="calculadora_form" actionListener="#{calculadoraBean.calculateMean}" value = "Calcular promedio"></p:commandButton>
+				<p:commandButton update="calculadora_form" actionListener="#{calculadoraBean.restart}" value = "Reiniciar"></p:commandButton>
 			</p:panelGrid>
 		</h:form>
 	</h:body>

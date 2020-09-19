@@ -6,11 +6,21 @@
 		<link rel="stylesheet" type="text/css" href="styles.css" />
 	</h:head>
 	<h:body>
-		<h1>Juega...</h1>
+		<h1>Calculadora :3</h1>
 		<h:form id="calculadora_form">
+			<p:inputText id="numeroUsuario" binding="#{numeroUsuario}"></p:inputText>
+			
 			<p:panelGrid columns="2" >
-				<p:inputText id="numeroUsuario" binding="#{numeroUsuario}"></p:inputText>
-				<p:outputLabel id="label" value="Moda #{calculadoraBean.nombrePropiedad}"></p:outputLabel>
+				<p:outputLabel id="moda" value="Moda #{calculadoraBean.calculateMode}"></p:outputLabel>
+				<p:outputLabel id="varianza" value="Varianza #{calculadoraBean.calculateVariance}"></p:outputLabel>
+				<p:outputLabel id="desviacionEstandar" value="desviación estandar #{calculadoraBean.calculateStandardDesviation}"></p:outputLabel>
+				<p:outputLabel id="promedio" value="Promedio #{calculadoraBean.calculateMean}"></p:outputLabel>
+				
+				<p:commandButton update="calculadora_form" actionListener="#{calculadoraBean.calculateMode}" value = "Calcular moda"></p:commandButton>
+				<p:commandButton update="calculadora_form" actionListener="#{calculadoraBean.calculateVariance}" value = "Calcular varianza"></p:commandButton>
+				<p:commandButton update="calculadora_form" actionListener="#{calculadoraBean.calculateStandardDesviation}" value = "Calcular desviación estandar"></p:commandButton>
+				<p:commandButton update="calculadora_form" actionListener="#{calculadoraBean.calculateMean}" value = "Calcular promedio"></p:commandButton>
+				<p:commandButton update="calculadora_form" actionListener="#{calculadoraBean.restart}" value = "Reiniciar"></p:commandButton>
 			</p:panelGrid>
 		</h:form>
 	</h:body>
