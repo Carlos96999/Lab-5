@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3c.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
-	<h:head>
-		<link rel="stylesheet" type="text/css" href="styles.css" />
-	</h:head>
-	<h:body>
-		<h1>Calculadora :3</h1>
-		<h:form id="calculadora_form">
-			<p:outputLabel value="#{calculadoraBean.mode}" style="display: none;"></p:outputLabel>
-			<p:inputText id="numeroUsuario" value="#{calculadoraBean.data}"></p:inputText>
-			<System class="println">value="#{calculadoraBean.data}"</System>
-			<p:panelGrid columns="2" >
-				<p:outputLabel id="moda" value="Moda #{calculadoraBean.mode}"></p:outputLabel>
-				<p:outputLabel id="varianza" value="Varianza #{calculadoraBean.variance}"></p:outputLabel>
-				<p:outputLabel id="desviacionEstandar" value="desviación estandar #{calculadoraBean.desviation}"></p:outputLabel>
-				
-				
-				<p:commandButton update="calculadora_form" actionListener="#{calculadoraBean.calculateMode}" value = "Calcular moda"></p:commandButton>
-				<p:commandButton update="calculadora_form" actionListener="#{calculadoraBean.calculateVariance}" value = "Calcular varianza"></p:commandButton>
-				<p:commandButton update="calculadora_form" actionListener="#{calculadoraBean.calculateStandardDesviation}" value = "Calcular desviación estandar"></p:commandButton>
-				<p:commandButton update="calculadora_form" actionListener="#{calculadoraBean.calculateMean}" value = "Calcular promedio"></p:commandButton>
-				<p:commandButton update="calculadora_form" actionListener="#{calculadoraBean.restart}" value = "Reiniciar"></p:commandButton>
-			</p:panelGrid>
-		</h:form>
-	</h:body>
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<h:body>
+    <h1>Calculadora :3</h1>
+    <h:form id="calculadora_form">
+        <p:outputPanel>
+            <p:inputText value="#{calculadoraBean.cadenaEntrada}"></p:inputText>
+        </p:outputPanel>
+	<p:panelGrid columns="2">
+        	<p:outputPanel>
+        	<p:outputLabel value="Promedio: #{calculadoraBean.resultadoMean}"></p:outputLabel>
+        	</p:outputPanel>
+		<p:outputPanel>
+        	<p:outputLabel value="Varianza: #{calculadoraBean.resultadoVariance}"></p:outputLabel>
+        	</p:outputPanel>
+        	<p:outputPanel>
+        	<p:outputLabel value="Desviacion estandar: #{calculadoraBean.resultadoStandardDeviation}"></p:outputLabel>
+        	</p:outputPanel>
+        	<p:outputPanel>
+        	<p:outputLabel value="Moda: #{calculadoraBean.resultadoMode}"></p:outputLabel>
+        	</p:outputPanel>
+        	<p:commandButton value="calcular Promedio" update="calculadora_form" action="#{calculadoraBean.calculateMean()}"></p:commandButton>
+		<p:commandButton value="Calcular Varianza" update="calculadora_form" action="#{calculadoraBean.calculateVariance()}"></p:commandButton>
+		<p:commandButton value="Calcular Desviacion" update="calculadora_form" action="#{calculadoraBean.calculateStandardDeviation()}"></p:commandButton>
+		<p:commandButton value="Calcular Moda" update="calculadora_form" action="#{calculadoraBean.calculateMode()}"></p:commandButton>
+        	<p:commandButton value="Reiniciar" update="calculadora_form" action="#{calculadoraBean.restart()}"></p:commandButton>
+	</p:panelGrid>
+    </h:form>
+</h:body>
 </html>

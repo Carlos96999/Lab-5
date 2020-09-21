@@ -1,141 +1,203 @@
-package main.java.BackingBean;
+package BackingBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.*;
+/**
+*
+* @autores Carlos Amorocho, Jonathan paez
+*/
 @ManagedBean(name = "calculadoraBean")
 @ApplicationScoped
+
+@SessionScoped
 public class calculadoraBean {
-
 	private ArrayList<Float> data;
-	public double average;
-	private double desviation;
-	private double variance;
-	private double mode;
+	static String cadenaEntrada = "";
+	static double resultadoMean = 0;
+	static double resultadoVariance = 0;
+	static double resultadoStandardDeviation = 0;
+	static double resultadoMode = 0;
+	static double cantidadNumero = 0;
 
-	public calculadoraBean()
-	{
-		average = 0.0;
-		desviation = 0.0;
-		variance = 0.0;
-		mode = 0.0;
-	}
-	
-	public double calculateMean(ArrayList<Float> Mean)
-	{
-		for(int i=0; i<Mean.size(); i++)
-		{
-			average += Mean.get(i);
-		}
-		average = average/2;
-		return average;
-	}
-	
-	public double calculateVariance(ArrayList<Float> variance)
-	{
-		calculateMean(variance);
-		
-		for(int i=0; i<variance.size(); i++)
-		{
-			this.variance += Math.pow(variance.get(i)-average, 2);
-		}
-		this.variance /= variance.size();
-		return this.variance;
-	}
-	
-	public double calculateStandardDeviation(ArrayList<Float> standardDeviation)
-	{
-		desviation = calculateVariance(standardDeviation);
-		desviation = Math.sqrt(desviation);
-		return desviation;
-	}
-	
-	public double calculateMode(ArrayList<String> mode)
-	{
-		HashMap<String, Integer> map = new HashMap<>();
-		
-		for (int i = 0; i<mode.size(); i++) 
-		{
-			//Float number = mode.get(i);
-			String number = mode.get(i);
-			
-			if (map.containsKey(number)) 
-			{
-				map.put(number, map.get(number) + 1);
-			} 
-			else 
-			{
-				map.put(number, 1);
-			}
-		}
-		
-		String moda = "";
-		int mayor = 0;
-		
-		for (HashMap.Entry<String, Integer> entry : map.entrySet())
-		{
-			if (entry.getValue() > mayor) 
-			{
-				mayor = entry.getValue();
-				moda = entry.getKey();
-			}
-		}
-		return 1.0;
-	}
-	
-	public void restart()
-	{
-		average = 0.0;
-		desviation = 0.0;
-		variance = 0.0;
-		mode = 0.0;
-	}
-	
-	/*
-	 * Conjunto de Get's
+
+	public calculadoraBean(){
+    	
+    }
+	/**
+	 *Este metodo elimina el punto y coma de una cadena
+	 * 
 	 */
-	public ArrayList<Float> getData()
-	{
-		return data;
+	private static double[] convierteCadena() {
+		String[] valores = cadenaEntrada.split(";");
+		double[] resultadoValores = new double[valores.length];
+		for (int i = 0; i<valores.length;i++) {
+			resultadoValores[i]=Double.parseDouble(valores[i]);			
+		}
+		cantidadNumero = resultadoValores.length;
+		return resultadoValores;
 	}
 	
-	public double getMean()
-	{
-		return average;
-	}
-	
-	public double getDesviation()
-	{
-		return desviation;
-	}
-	
-	public double getVariance()
-	{
-		return variance;
-	}
-	
-	public double getMode()
-	{
-		return mode;
-	}
-	
-	public int getCount()
-	{
-		return data.size();
-	}
-	
-	/*
-	 * Conjunto de Set's
+	/**
+	 *
+	 * Este metodo calcula el promedio
 	 */
-	public void setData(ArrayList<Float> data)
-	{
-		this.data = data;
+	public static double calculateMean() {
+		double[] Mean = convierteCadena();
+        double con = 0;
+        for (int i = 0; i < Mean.length; i++) {
+            con += Mean[i];
+        }
+        resultadoMean = con / Mean.length;
+        return resultadoMean ;
+
+    }
+	/**
+	 *
+	 * Este metodo calcula la varianza
+	 */
+    public static double calculateVariance(){
+		double[] variance= convierteCadena();
+        
+		double promedio=calculateMean();
+		double con=0;
+		for(int i=0; i<variance.length; i++)
+		{
+			con += Math.pow(variance[i]-promedio, 2);
+		}
+		con /= variance.length;
+		resultadoVariance=con;
+		return resultadoVariance;
+    }
+    /**
+    *
+    * Este metodo calcula la desviacion estandar
+    */
+    public static double calculateStandardDeviation(){    	
+        resultadoStandardDeviation = Math.sqrt(calculateVariance());
+        return resultadoStandardDeviation;
+        
+    }
+    /**
+    *
+    * Este metodo calcula la moda
+    */
+    public static double calculateMode() {
+        double maxCount = 0;
+        double resultadoMode=0;
+        double m[] = convierteCadena();
+        double n = m.length;
+        for (int i = 0; i < n; ++i) {
+           double count = 0;
+           for (int j = 0; j < n; ++j) {
+              if (m[j] == m[i])
+              ++count;
+           }
+           if (count > maxCount) {
+              maxCount = count;
+              resultadoMode = m[i];
+           }
+        }
+        return resultadoMode;
+     }
+    /**
+    *
+    * Este metodo reestablece los valores
+    */
+    public static void restart(){
+    	cadenaEntrada = "";
+    	resultadoMean = 0;
+    	resultadoVariance = 0;
+    	resultadoStandardDeviation = 0;
+    	resultadoMode = 0;
+    	cantidadNumero = 0;
+    }
+         
+    /**
+    *
+    * Este metodo entrega la cadena de entrada digitada por el usuario
+    */
+    public String getCadenaEntrada() {
+		return cadenaEntrada;
+	}
+    /**
+    *
+    * Este metodo establece la cadena de entrada
+    */
+	public void setCadenaEntrada(String cadenaEntrada) {
+		this.cadenaEntrada = cadenaEntrada;
+	}
+	/**
+	 *
+	 * Este metodo calcula el promedio
+	 */
+	public double getResultadoMean() {
+		return resultadoMean;
+	}
+	/**
+	 *
+	 * Este metodo inicializa el valor del promedio
+	 */
+	public void setResultadoMean(double resultadoMean) {
+		this.resultadoMean = resultadoMean;
+	}
+	/**
+	 *
+	 * Este metodo obtiene el valor de la varianza
+	 */
+	public double getResultadoVariance() {
+		return resultadoVariance;
+	}
+	/**
+	 *
+	 * Este metodo inicializa el valor de la varianza
+	 */
+	public void setResultadoVariance(double resultadoVariance) {
+		this.resultadoVariance = resultadoVariance;
+	}
+	/**
+	 *
+	 * Este metodo obtiene el valor de la desviacion estandar
+	 */
+	public double getResultadoStandardDeviation() {
+		return resultadoStandardDeviation;
+	}
+	/**
+	 *
+	 * Este metodo inicializa el valor de la desviacion estandar
+	 */
+	public void setResultadoStandardDeviation(double resultadoStandardDeviation) {
+		this.resultadoStandardDeviation = resultadoStandardDeviation;
+	}
+	/**
+	 *
+	 * Este metodo obtiene el valor de la moda
+	 */
+	public double getResultadoMode() {
+		return resultadoMode;
+	}
+	/**
+	 *
+	 * Este metodo inicializa el valor el valor de la moda
+	 */
+	public void setResultadoMode(double resultadoMode) {
+		this.resultadoMode = resultadoMode;
+	}
+	/**
+	 *
+	 * Este metodo inicializa el valor del promedio
+	 */
+	public double getCantidadNumero() {
+		return cantidadNumero;
+	}
+
+	public void setCantidadNumero(int cantidadNumero) {
+		this.cantidadNumero = cantidadNumero;
 	}
 	
-	public void main(String[] args)
-	{
-		calculadoraBean calculate = new calculadoraBean();
-	}
+
+
 }
